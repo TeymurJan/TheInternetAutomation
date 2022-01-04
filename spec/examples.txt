@@ -1,0 +1,14 @@
+example_id                                     | status | run_time        |
+---------------------------------------------- | ------ | --------------- |
+./spec/features/abtestcontrol_spec.rb[1:1]     | passed | 5.73 seconds    |
+./spec/features/addremoveelements_spec.rb[1:1] | passed | 0.69493 seconds |
+./spec/features/addremoveelements_spec.rb[1:2] | passed | 13.15 seconds   |
+./spec/features/basicauth_spec.rb[1:1]         | passed | 2.89 seconds    |
+./spec/features/brokenimages_spec.rb[1:1]      | failed | 12.17 seconds   |
+./spec/features/challengingdom_spec.rb[1:1]    | passed | 0.72026 seconds |
+./spec/features/checkboxes_spec.rb[1:1]        | passed | 0.49867 seconds |
+./spec/features/contextmenu_spec.rb[1:1]       | passed | 0.92219 seconds |
+./spec/features/digestauth_spec.rb[1:1]        | failed | 0.44962 seconds |
+./spec/features/dropdown_spec.rb[1:1]          | passed | 0.75044 seconds |
+./spec/features/dynamiccontent_spec.rb[1:1]    | passed | 5.92 seconds    |
+./spec/features/dynamiccontrols_spec.rb[1:1]   | passed | 8.93 seconds    |
