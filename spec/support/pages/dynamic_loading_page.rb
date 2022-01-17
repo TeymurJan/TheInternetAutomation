@@ -3,7 +3,7 @@
 require 'site_prism'
 
 class DynamicLoading < SitePrism::Page
-  set_url 'dynamic_loading'
+  set_url '/dynamic_loading'
   element :first_example, 'a[href="/dynamic_loading/1"]'
   element :second_example, 'a[href="/dynamic_loading/2"]'
 
