@@ -3,10 +3,17 @@
 require 'spec_helper'
 
 RSpec.describe 'Digest auth check', type: :feature do
-  
-  it 'auth check' do
-    visit '/digest_auth'
-    page.driver.browser.switch_to.alert.send_keys('admin' + '\t' + 'admin')
-    page.driver.browser.switch_to.alert.accept
+  before do
+    @home_page = HomePage.new
+  end
+
+  it 'Check successful auth' do
+    username = GlobalConstants::NAME
+    password = GlobalConstants::PASSWORD
+
+    @home_page.load
+    url = page.current_url.gsub!('https://', '')
+    visit "https://#{username}:#{password}@#{url}digest_auth"
+    expect(page).to have_text('Congratulations! You must have the proper credentials.')
   end
 end

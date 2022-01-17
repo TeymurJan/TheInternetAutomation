@@ -11,4 +11,10 @@ RSpec.describe 'Dynamic Content page', type: :feature do
   it 'Check amount of divs' do
     expect(@dynamic_content_page.getDivsCount). to eq(9)
   end
+
+  it 'Check dynamic comments' do
+    text = @dynamic_content_page.getDivText
+    visit current_path
+    expect(page).not_to have_text(text)
+  end
 end
