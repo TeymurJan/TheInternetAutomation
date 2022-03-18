@@ -8,12 +8,11 @@ RSpec.describe 'Broken images page', type: :feature do
     @brokenimages_page.load
   end
 
-  it 'Check for broken images' do
-    @brokenimages_page.getImage.each do |img|
-      visit img[:src]
-      expect(page).to have_content('Not Found')
-      visit '/broken_images'
-      sleep 5
-    end
+  it 'Check for two broken images' do
+    visit @brokenimages_page.image_first[:src]
+    expect(page).to have_content('Not Found')
+    @brokenimages_page.load
+    visit @brokenimages_page.image_second[:src]
+    expect(page).to have_content('Not Found')
   end
 end

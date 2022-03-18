@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '2.6.5'
 
 gem 'capybara'
+gem 'capybara-webkit'
 gem 'parser'
 gem 'rspec'
 gem 'rumouse'

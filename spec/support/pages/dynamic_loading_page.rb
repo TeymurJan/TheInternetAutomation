@@ -14,6 +14,6 @@ class DynamicLoading < SitePrism::Page
   def goToFirstExample; first_example.click end
   def goToSecondExample; second_example.click end
 
-  def clickButton; first_button.click end
+  def clickButton; button.click end
   def getText; text_hello_world.text end
 end
