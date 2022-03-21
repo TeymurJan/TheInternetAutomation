@@ -5,7 +5,8 @@ require 'spec_helper'
 RSpec.describe 'JQueryUI - Menu: ', type: :feature do
   it 'check back to jquery UI option' do
     visit '/jqueryui/menu#'
-    page.find('#menu').select('Back to JQuery UI'.to_s)
-    expect(page.current_path).to eq('/jqueryui')
+    page.find(:xpath, '(//a[@href="#"])[3]').hover
+    page.find('a[href="/jqueryui"]').click
+    expect(page).to have_current_path('/jqueryui')
   end
 end
