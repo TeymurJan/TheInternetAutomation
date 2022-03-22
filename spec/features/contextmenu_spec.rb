@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Check context menu', type: :feature do
+RSpec.describe 'Check context menu: ', type: :feature do
   before do 
     @context_menu_page = ContextMenu.new
     @context_menu_page.load

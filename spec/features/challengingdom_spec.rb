@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Challenging DOM page', type: :feature do
+RSpec.describe 'Challenging DOM page: ', type: :feature do
   before do
     @challenging_dom_page = ChallengingDOM.new
     @challenging_dom_page.load

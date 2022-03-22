@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Dropdown menu check', type: :feature do
+RSpec.describe 'Dropdown menu check: ', type: :feature do
   before do
     @dropdown_page = DropDownMenu.new
     @dropdown_page.load

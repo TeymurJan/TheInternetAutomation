@@ -2,7 +2,7 @@
 
 # require 'spec_helper'
 
-# RSpec.describe 'Frames check', type: :feature do
+# RSpec.describe 'Frames check: ', type: :feature do
 #   it 'check frames' do
 #     visit '/nested_frames'
 #     page.driver.browser.switch_to.frame('frame-middle')

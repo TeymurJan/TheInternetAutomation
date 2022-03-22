@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Broken images page', type: :feature do
+RSpec.describe 'Broken images page: ', type: :feature do
   before do
     @brokenimages_page = BrokenImages.new
     @brokenimages_page.load
   end
 
-  it 'Check for two broken images' do
+  it 'check for two broken images' do
     visit @brokenimages_page.image_first[:src]
     expect(page).to have_content('Not Found')
     @brokenimages_page.load

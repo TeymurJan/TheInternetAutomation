@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Basic Auth page', type: :feature do
+RSpec.describe 'Basic Auth page: ', type: :feature do
   before do
     @basic_auth_page = BasicAuthPage.new
     @home_page = HomePage.new
   end
 
-  it 'Check successful auth' do
+  it 'check successful auth' do
     username = GlobalConstants::NAME
     password = GlobalConstants::PASSWORD
 

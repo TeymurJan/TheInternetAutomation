@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Add&Remove elements page', type: :feature do
+RSpec.describe 'Add&Remove elements page: ', type: :feature do
   before do
     @add_remove_elements_page = AddRemoveElements.new
     @add_remove_elements_page.load

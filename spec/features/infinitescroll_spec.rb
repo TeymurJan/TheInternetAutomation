@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Infinite scroll', type: :feature do
+RSpec.describe 'Infinite scroll: ', type: :feature do
   it 'check added divs' do
     visit '/infinite_scroll'
     page.execute_script('window.scrollTo(0, 1980)')
