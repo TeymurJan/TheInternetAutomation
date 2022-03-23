@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Entry ad page', type: :feature do
+RSpec.describe 'Entry ad page: ', type: :feature do
   before do
     @entry_ad_page = EntryAd.new
     @entry_ad_page.load

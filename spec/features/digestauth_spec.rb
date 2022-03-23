@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Digest auth check', type: :feature do
+RSpec.describe 'Digest auth check: ', type: :feature do
   before do
     @home_page = HomePage.new
     @home_page.load

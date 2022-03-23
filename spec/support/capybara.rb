@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-require 'capybara/rspec'
 require 'webdrivers/chromedriver'
 require 'webdrivers/geckodriver'
+require 'pry'
 
 # Capybara drivers - https://github.com/teamcapybara/capybara#drivers
 
+Capybara.javascript_driver = :selenium 
 # Register Chrome
 Capybara.register_driver(:selenium_chrome) do |app|
   # Add options for Chrome browser

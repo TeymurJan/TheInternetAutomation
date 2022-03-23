@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Hovers', type: :feature do
+RSpec.describe 'Hovers page: ', type: :feature do
   before do
     @hovers_page = HoversPage.new
     @hovers_page.load
   end
 
-  it 'Check hovers' do
+  it 'check hovers' do
     page.first(:xpath, '//div//div//img').hover
     expect(page).to have_content('name: user1')
 

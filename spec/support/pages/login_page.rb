@@ -1,4 +1,5 @@
 #frozen_string_literal: true
+
 require 'site_prism'
 
 class LoginPage < SitePrism::Page
