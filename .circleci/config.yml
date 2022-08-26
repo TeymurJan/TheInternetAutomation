@@ -20,7 +20,7 @@ commands:
   setup_all:
     steps:
     - run: gem install bundler -v 2.3.11
-    - run: find . -name "TheInternetHerokuApp"; cd "$(dirname "$(!!)")"; cd TheInternetHerokuApp
+    - run: find . -name "TheInternetRspec"; cd "$(dirname "$(!!)")"; cd TheInternetRspec
     - run: bundle install
     - run: rails generate rspec:install
     
