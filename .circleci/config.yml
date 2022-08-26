@@ -19,8 +19,6 @@ caches:
 commands:
   setup_all:
     steps:
-    - run: rvm install 2.6.5
-    - run: rvm --default use 2.6.5
     - run: gem install bundler 2.3.11
     - run: bundle install
     - run: rails generate rspec:install
