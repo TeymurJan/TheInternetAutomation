@@ -19,8 +19,10 @@ caches:
 commands:
   setup_all:
     steps:
-    - run: gem install bundler -v 2.3.11
-    - run: bundle install
+    - run: gem update --system
+    - run: gem install bundler
+    - run: bundle config set path 'vendor/bundle'
+    - run: bundle install --retry 3
     - run: rails generate rspec:install
     
   run_specs:
