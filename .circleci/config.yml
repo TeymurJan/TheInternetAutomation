@@ -1,0 +1,93 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/TheInternetRspec
+    docker:
+      - image: circleci/ruby:2.7.3-node-browsers
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+
+caches: 
+  - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
+  - &yarn_cache v1-c5-yarn-{{ checksum "yarn.lock" }}
+
+commands:
+  bundle:
+    steps:
+      - checkout
+      - restore_cache:
+          key: *bundle_cache
+      - run:
+          name: Install gems 
+          command: |
+            rvm install 2.6.5
+            rvm --default use 2.6.5
+            gem update --system
+            gem install bundler
+            bundle config set path 'vendor/bundle'
+            bundle install --retry 3
+      - save_cache:
+          key: *bundle_cache
+          paths:
+            - vendor/bundle
+  yarn:
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: *bundle_cache
+      - restore_cache:
+          key: *yarn_cache
+      - run: yarn install
+      - save_cache:
+          key: *yarn_cache
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+  lintering:
+    steps:
+      - run: 
+          name: Rubocop
+          command: bundle exec rubocop spec
+  rspec:
+    steps:
+      - run: rspec
+
+jobs:
+  bundle:
+    executor: default
+    steps:
+      - bundle
+  yarn:
+    executor: default
+    steps:
+      - bundle
+      - yarn
+  lintering:
+    executor: default
+    steps:
+      - bundle
+      - yarn
+      - lintering
+  rspec:
+    parallelism: 4
+    executor: default
+    steps:
+      - bundle
+      - yarn
+      - rspec
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - bundle
+      - yarn
+      - lintering
+      - rspec
+
