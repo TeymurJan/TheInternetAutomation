@@ -5,14 +5,6 @@ executors:
     description: The official CircleCI Ruby Docker image
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
-        environment:
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
-      - image: circleci/postgres:13.5-postgis
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
 
 caches: 
   - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
@@ -28,6 +20,7 @@ commands:
           command: |
             gem update --system
             gem install bundler
+            gem install geckodriver
             bundle config set path 'vendor/bundle'
             bundle install --retry 3
       - save_cache:
