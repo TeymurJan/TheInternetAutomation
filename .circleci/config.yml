@@ -22,7 +22,7 @@ commands:
     steps:
       - run:
           name: rubocop
-          command: bundle exec rubocop
+          command: bundle install rubocop
 
   run_specs:
     steps:
