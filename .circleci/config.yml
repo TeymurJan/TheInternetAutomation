@@ -2,7 +2,7 @@ version: 2.1
 
 executors:
   default:
-    working_directory: ~/TheInternetHerokuApp
+    working_directory: ~/TheInternetRspec
     description: The official CircleCI Ruby Docker image
     docker:
       - image: circleci/ruby:2.6.1-node-browsers
@@ -20,7 +20,6 @@ commands:
   setup_all:
     steps:
     - run: gem install bundler -v 2.3.11
-    - run: cd spec
     - run: bundle install
     - run: rails generate rspec:install
     
