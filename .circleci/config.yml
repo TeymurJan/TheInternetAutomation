@@ -37,33 +37,7 @@ commands:
 
   rspec:
     steps:
-      - run: 
-          name: Run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            bundle exec rspec --profile \
-                              --order random \
-                              --format documentation \
-                              --format html \
-                              --out reports/rspec_results.html \
-                              -- \
-                              $TEST_FILES
-      - store_test_results:
-          path: ~/Bookstore/tmp/test-results
-      - store_artifacts:
-          path: ~/Bookstore/coverage
-          destination: coverage
-      - store_artifacts:
-          path: ~/Bookstore/reports
-          destination: rspec_reports
-      - store_artifacts:
-          path: ~/Bookstore/tmp/capybara
-          destination: capybara_screenshot
-      - store_artifacts:
-          path: ~/Bookstore/tmp/logs
-          destination: logs
-
+      - run: rspec
 jobs:
   bundle:
     executor: default
