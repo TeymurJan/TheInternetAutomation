@@ -20,7 +20,7 @@ commands:
   setup_all:
     steps:
     - run: gem install bundler -v 2.3.11
-    - run: cd ~/TheInternetHerokuApp; bundle install
+    - run: dir; bundle install
     - run: rails generate rspec:install
     
   run_specs:
