@@ -5,18 +5,17 @@ executors:
     working_directory: ~/TheInternetRspec
     description: The official CircleCI Ruby Docker image
     docker:
-      - image: circleci/ruby:2.6.1-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers
         environment:
           RAILS_ENV: test
-      - image: circleci/postgres:11.3-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
 
+caches:
+  - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
 
 commands:
   setup_all:
     steps:
+    - run: gem update --system
     - run: gem install bundler
     - run: bundle config set path 'vendor/bundle'
     - run: bundle install --retry 3
@@ -35,6 +34,8 @@ commands:
   setup_environment:
     steps:
       - checkout
+      - restore_cache:
+          key: *bundle_cache
       - run: gem update --system
       - run: bundle update --bundler
 jobs:
