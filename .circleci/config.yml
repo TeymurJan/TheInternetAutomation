@@ -37,7 +37,8 @@ commands:
 
   rspec:
     steps:
-      - run: rspec
+      - run: bundle exec Rspec
+
 jobs:
   bundle:
     executor: default
