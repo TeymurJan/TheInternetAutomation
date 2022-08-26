@@ -6,6 +6,6 @@ RSpec.describe 'Notification message: ', type: :feature do
   it 'check rendered message' do
     visit '/notification_message_rendered'
     page.find('a[href="/notification_message"]').click
-    expect(page).to have_content('Action successful').or have_content('Action unsuccessful, please try again')
+    expect(page.find('#flash').text).to start_with('Action successful').or start_with('Action unsuccesful, please try again')
   end
 end
