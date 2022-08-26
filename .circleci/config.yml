@@ -17,13 +17,14 @@ caches:
   - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
 
 commands:
-  run_linters:
-    description: command to start linters
+  setup_all:
     steps:
-      - run:
-          name: rubocop
-          command: bundle exec rubocop
-
+    - run: rvm install 2.6.5
+    - run: rvm --default use 2.6.5
+    - run: gem install bundler
+    - run: bundle install
+    - run: rails generate rspec:install
+    
   run_specs:
     steps:
       - run:
@@ -42,14 +43,10 @@ commands:
       - run: gem update --system
       - run: bundle update --bundler
 jobs:
-  lintering:
-    executor: default
-    steps:
-      - setup_environment
-      - run_linters
   run_specs:
     executor: default
     steps:
+      - setup_all
       - setup_environment
       - run_specs
 
@@ -57,7 +54,4 @@ workflows:
   version: 2.1
   build:
     jobs:
-      - lintering
-      - run_specs:
-          requires:
-            - lintering
+      - run_specs
