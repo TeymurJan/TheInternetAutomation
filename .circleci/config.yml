@@ -64,20 +64,6 @@ commands:
           path: ~/Bookstore/tmp/logs
           destination: logs
 
-  setup_db:
-    steps:
-      - run:
-          name: Install Postgres client
-          command: |
-            sudo apt-get update
-            sudo apt install -y postgresql-client
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: Database setup
-          command: bundle exec rake db:create db:schema:load --trace
-
 jobs:
   bundle:
     executor: default
@@ -92,7 +78,6 @@ jobs:
     executor: default
     steps:
       - bundle
-      - setup_db
       - rspec
 
 workflows:
