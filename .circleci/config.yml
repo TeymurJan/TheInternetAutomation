@@ -13,13 +13,10 @@ executors:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
 
-caches:
-  - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
 
 commands:
   setup_all:
     steps:
-    - run: gem update --system
     - run: gem install bundler
     - run: bundle config set path 'vendor/bundle'
     - run: bundle install --retry 3
@@ -38,8 +35,6 @@ commands:
   setup_environment:
     steps:
       - checkout
-      - restore_cache:
-          key: *bundle_cache
       - run: gem update --system
       - run: bundle update --bundler
 jobs:
