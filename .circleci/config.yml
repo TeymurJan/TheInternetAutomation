@@ -2,7 +2,7 @@ version: 2.1
 
 executors:
   default:
-    working_directory: ~/TheInternetRspec
+    working_directory: ~/repo
     description: The official CircleCI Ruby Docker image
     docker:
       - image: circleci/ruby:2.6.1-node-browsers
@@ -22,7 +22,7 @@ commands:
     steps:
       - run:
           name: rubocop
-          command: bundle install rubocop
+          command: bundle exec rubocop
 
   run_specs:
     steps:
