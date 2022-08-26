@@ -41,11 +41,6 @@ commands:
           key: *bundle_cache
       - run: gem update --system
       - run: bundle update --bundler
-      - run: bundle install --path vendor/bundle
-      - save_cache:
-          key: *bundle_cache
-          paths:
-            - vendor/bundle
 jobs:
   lintering:
     executor: default
