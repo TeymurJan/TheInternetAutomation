@@ -1,14 +1,10 @@
 version: 2.1
 executors:
   default:
-    working_directory: ~/TheInternetRspec
+    working_directory: ~/Bookstore
+    description: The official CircleCI Ruby Docker image
     docker:
       - image: circleci/ruby:2.7.3-node-browsers
-        environment:
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
-
 caches: 
   - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
   - &yarn_cache v1-c5-yarn-{{ checksum "yarn.lock" }}
@@ -22,8 +18,6 @@ commands:
       - run:
           name: Install gems 
           command: |
-            rvm install 2.6.5
-            rvm --default use 2.6.5
             gem update --system
             gem install bundler
             bundle config set path 'vendor/bundle'
@@ -56,7 +50,9 @@ commands:
           command: bundle exec rubocop spec
   rspec:
     steps:
-      - run: rspec
+      - run: 
+          name: Run tests
+          command: rspec
 
 jobs:
   bundle:
