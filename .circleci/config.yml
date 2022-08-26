@@ -1,53 +1,136 @@
 version: 2.1
-
 executors:
   default:
     working_directory: ~/TheInternetRspec
     description: The official CircleCI Ruby Docker image
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
         environment:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
           RAILS_ENV: test
+      - image: circleci/postgres:13.5-postgis
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
 
-caches:
+caches: 
   - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
+  - &yarn_cache v1-c5-yarn-{{ checksum "yarn.lock" }}
 
 commands:
-  setup_all:
-    steps:
-    - run: gem update --system
-    - run: gem install bundler
-    - run: bundle config set path 'vendor/bundle'
-    - run: bundle install --retry 3
-    - run: rails generate rspec:install
-    
-  run_specs:
-    steps:
-      - run:
-          name: run specs
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            bundle exec rspec --format progress \
-                              --out /tmp/test-results/rspec.xml \
-                              $TEST_FILES
-  setup_environment:
+  bundle:
     steps:
       - checkout
       - restore_cache:
           key: *bundle_cache
-      - run: gem update --system
-      - run: bundle update --bundler
+      - run:
+          name: Install gems 
+          command: |
+            gem update --system
+            gem install bundler
+            bundle config set path 'vendor/bundle'
+            bundle install --retry 3
+      - save_cache:
+          key: *bundle_cache
+          paths:
+            - vendor/bundle
+  yarn:
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: *bundle_cache
+      - restore_cache:
+          key: *yarn_cache
+      - run: yarn install
+      - save_cache:
+          key: *yarn_cache
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+  lintering:
+    steps:
+      - run: 
+          name: Rubocop
+          command: bundle exec rubocop spec
+  rspec:
+    steps:
+      - run: 
+          name: Run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --profile \
+                              --order random \
+                              --format documentation \
+                              --format html \
+                              --out reports/rspec_results.html \
+                              -- \
+                              $TEST_FILES
+      - store_test_results:
+          path: ~/Bookstore/tmp/test-results
+      - store_artifacts:
+          path: ~/Bookstore/coverage
+          destination: coverage
+      - store_artifacts:
+          path: ~/Bookstore/reports
+          destination: rspec_reports
+      - store_artifacts:
+          path: ~/Bookstore/tmp/capybara
+          destination: capybara_screenshot
+      - store_artifacts:
+          path: ~/Bookstore/tmp/logs
+          destination: logs
+
+  setup_db:
+    steps:
+      - run:
+          name: Install Postgres client
+          command: |
+            sudo apt-get update
+            sudo apt install -y postgresql-client
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: bundle exec rake db:create db:schema:load --trace
+
 jobs:
-  run_specs:
+  bundle:
     executor: default
     steps:
-      - setup_all
-      - setup_environment
-      - run_specs
+      - bundle
+  yarn:
+    executor: default
+    steps:
+      - bundle
+      - yarn
+  lintering:
+    executor: default
+    steps:
+      - bundle
+      - yarn
+      - lintering
+  rspec:
+    parallelism: 4
+    executor: default
+    steps:
+      - bundle
+      - yarn
+      - setup_db
+      - rspec
 
 workflows:
   version: 2.1
   build:
     jobs:
-      - run_specs
+      - bundle
+      - yarn
+      - lintering
+      - rspec
+
