@@ -2,7 +2,7 @@ version: 2.1
 
 executors:
   default:
-    working_directory: ~/repo
+    working_directory: ~/TheInternetRspec
     description: The official CircleCI Ruby Docker image
     docker:
       - image: circleci/ruby:2.6.1-node-browsers
