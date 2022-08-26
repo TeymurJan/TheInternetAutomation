@@ -20,9 +20,9 @@ commands:
           command: |
             gem update --system
             gem install bundler
-            gem install geckodriver
             bundle config set path 'vendor/bundle'
             bundle install --retry 3
+            bundle update
       - save_cache:
           key: *bundle_cache
           paths:
