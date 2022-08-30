@@ -4,7 +4,7 @@ executors:
     working_directory: ~/TheInternetRspec
     description: The official CircleCI Ruby Docker image
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
 
 caches: 
   - &bundle_cache v1-repo-{{ checksum "Gemfile.lock" }}
